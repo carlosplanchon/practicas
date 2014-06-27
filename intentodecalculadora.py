@@ -1,54 +1,90 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import gtk
+from gi.repository import Gtk
+import os
 
 class Calculadora(Gtk.Window):
-	def __init__(self,numeros):
+	def __init__(self):
+
 		Gtk.Window.__init__(self)
 
-		caja = Gtk.Vbox()
-		for x in range(0, 3):
+		fila = Gtk.HBox()
+
+#INTENTO DE MENÚ
+
+#USÉ ESTA PARTE PARA PROBAR LOS OBJETOS DE GTK
+
+#		def menu():
+#			menu = Gtk.MenuBar("ASD")
+#			menu.connect("clicked", self.boton_clicked)
+#			ventana.add(menu)
+#
+#		def boton_menu():
+#			boton = Gtk.MenuButton
+#			boton.connect("clicked", self.boton_clicked)
+#			menu.add(boton_menu)
+
+#CLOSED
+
+		def elboton(x):
 			boton = Gtk.Button(str(x))
 			boton.connect("clicked", self.boton_clicked)
-			caja.add(boton)
-		for x in range(4, 6):
-			boton = Gtk.Button(str(x))
-			boton.connect("clicked", self.boton_clicked)
-			caja.add(boton)
-		for x in range(7, 9):
-			boton = Gtk.Button(str(x))
-			boton.connect("clicked", self.boton_clicked)
-			caja.add(boton)
+			fila.add(boton)
 
-		boton = Gtk.Button("+")
-		boton.connect("clicked", self.boton_clicked)
-		caja.add(boton)
-		boton = Gtk.Button("-")
-		boton.connect("clicked", self.boton_clicked)
-		caja.add(boton)
-		boton = Gtk.Button("*")
-		boton.connect("clicked", self.boton_clicked)
-		caja.add(boton)
-		boton = Gtk.Button("/")
-		boton.connect("clicked", self.boton_clicked)
-		caja.add(boton)
-		boton = Gtk.Button("=")
-		boton.connect("clicked", self.boton_clicked)
-		caja.add(boton)
-		boton = Gtk.Button("Borrar")
-		boton.connect("clicked", self.boton_clicked)
-		caja.add(boton)
+#
 
+##ACA VA LA PANTALLITA DE LA CALCULADORA
 
-		self.add(caja)
-		self.show_all()
+		for x in range(1,4):
+			elboton(x)
 
-		self.connect("delete-event", self.salir)
+		elboton("+")
+		elboton("undo")
+		elboton("clear")
 
-	def salir(self, widget, event):
-		gtk.main_quit()
+	#ACA DEBERÍA HABER UN "ENTER"
 
-if __name__ == "__main__":
-	calculadora = Calculadora()
-gtk.main()
+		for x in range(5,8):
+			elboton(x)
+
+		elboton("*")
+		elboton("(")
+		elboton(")")
+
+	#ACA DEBERÍA HABER OTRO "ENTER"
+
+		for x in range(6,10):
+			elboton(x)
+
+		elboton("-")
+		elboton("x²")
+		elboton("TIC")
+
+	#ACA DEBERÍA HABER OTRO "ENTER
+
+		elboton("0")
+		elboton(",")
+		elboton("%")
+		elboton("+")
+		elboton("=")
+
+#VENTANA
+
+		ventana = Gtk.Window()
+		ventana.set_icon_from_file(os.path.join("icono.png"))
+		ventana.set_title("Calculadora")
+		ventana.set_size_request(300,200)
+		ventana.connect("destroy",Gtk.main_quit)
+#		ventana.add(menu)
+		ventana.add(fila)
+		ventana.show_all()
+
+	def main(self):
+		Gtk.main()
+
+	def boton_clicked(self, widget):
+		print widget.get_label()
+
+calc = Calculadora()
+calc.main()
