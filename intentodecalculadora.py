@@ -9,32 +9,24 @@ class Calculadora(Gtk.Window):
 
 		Gtk.Window.__init__(self)
 
+		columna = Gtk.VBox()
 		fila = Gtk.HBox()
+		fila2 = Gtk.HBox()
+		fila3 = Gtk.HBox()
+		fila4 = Gtk.HBox()
 
-#INTENTO DE MENÚ
+#MENU
+#PANTALLA
 
-#USÉ ESTA PARTE PARA PROBAR LOS OBJETOS DE GTK
-
-#		def menu():
-#			menu = Gtk.MenuBar("ASD")
-#			menu.connect("clicked", self.boton_clicked)
-#			ventana.add(menu)
-#
-#		def boton_menu():
-#			boton = Gtk.MenuButton
-#			boton.connect("clicked", self.boton_clicked)
-#			menu.add(boton_menu)
-
-#CLOSED
+		columna.add(fila)
+		columna.add(fila2)
+		columna.add(fila3)
+		columna.add(fila4)
 
 		def elboton(x):
 			boton = Gtk.Button(str(x))
 			boton.connect("clicked", self.boton_clicked)
 			fila.add(boton)
-
-#
-
-##ACA VA LA PANTALLITA DE LA CALCULADORA
 
 		for x in range(1,4):
 			elboton(x)
@@ -43,7 +35,11 @@ class Calculadora(Gtk.Window):
 		elboton("undo")
 		elboton("clear")
 
-	#ACA DEBERÍA HABER UN "ENTER"
+		def elboton(x):
+			boton = Gtk.Button(str(x))
+			boton.connect("clicked", self.boton_clicked)
+			fila2.add(boton)
+
 
 		for x in range(5,8):
 			elboton(x)
@@ -52,33 +48,36 @@ class Calculadora(Gtk.Window):
 		elboton("(")
 		elboton(")")
 
-	#ACA DEBERÍA HABER OTRO "ENTER"
+		def elboton(x):
+			boton = Gtk.Button(str(x))
+			boton.connect("clicked", self.boton_clicked)
+			fila3.add(boton)
 
 		for x in range(6,10):
 			elboton(x)
 
 		elboton("-")
 		elboton("x²")
-		elboton("TIC")
+		elboton("✓")
 
-	#ACA DEBERÍA HABER OTRO "ENTER
+		def elboton(x):
+			boton = Gtk.Button(str(x))
+			boton.connect("clicked", self.boton_clicked)
+			fila4.add(boton)
 
 		elboton("0")
 		elboton(",")
-		elboton("%")
+		elboton("/")
 		elboton("+")
 		elboton("=")
 
-#VENTANA
-
-		ventana = Gtk.Window()
-		ventana.set_icon_from_file(os.path.join("icono.png"))
-		ventana.set_title("Calculadora")
-		ventana.set_size_request(300,200)
-		ventana.connect("destroy",Gtk.main_quit)
-#		ventana.add(menu)
-		ventana.add(fila)
-		ventana.show_all()
+		self.set_icon_from_file(os.path.join("icono.png"))
+		self.set_title("Calculadora")
+		self.set_size_request(300,200)
+		self.connect("destroy",Gtk.main_quit)
+		self.add(columna)
+		self.add(pantalla)
+		self.show_all()
 
 	def main(self):
 		Gtk.main()
