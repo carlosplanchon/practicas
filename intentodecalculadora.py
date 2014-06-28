@@ -14,10 +14,14 @@ class Calculadora(Gtk.Window):
 		fila2 = Gtk.HBox()
 		fila3 = Gtk.HBox()
 		fila4 = Gtk.HBox()
+		fila0 = Gtk.HBox()
+		pantalla = Gtk.Entry()
 
 #MENU
 #PANTALLA
 
+		columna.add(fila0)
+		fila0.add(pantalla)
 		columna.add(fila)
 		columna.add(fila2)
 		columna.add(fila3)
@@ -76,7 +80,6 @@ class Calculadora(Gtk.Window):
 		self.set_size_request(300,200)
 		self.connect("destroy",Gtk.main_quit)
 		self.add(columna)
-		self.add(pantalla)
 		self.show_all()
 
 	def main(self):
