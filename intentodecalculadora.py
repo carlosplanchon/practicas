@@ -10,16 +10,26 @@ class Calculadora(Gtk.Window):
 		Gtk.Window.__init__(self)
 
 		columna = Gtk.VBox()
+		fila_menu = Gtk.HBox()
+		fila0 = Gtk.HBox()
 		fila = Gtk.HBox()
 		fila2 = Gtk.HBox()
 		fila3 = Gtk.HBox()
 		fila4 = Gtk.HBox()
 		fila0 = Gtk.HBox()
 		pantalla = Gtk.Entry()
+		menu = Gtk.MenuBar()
 
-#MENU
-#PANTALLA
+		def menuboton(x):
+			menuboton = Gtk.MenuItem(x)
+			menu.add(menuboton)
 
+		menuboton("Edit")
+		menuboton("Modo")
+		menuboton("Ayuda")
+
+		columna.add(fila_menu)
+		fila_menu.add(menu)
 		columna.add(fila0)
 		fila0.add(pantalla)
 		columna.add(fila)
@@ -28,7 +38,7 @@ class Calculadora(Gtk.Window):
 		columna.add(fila4)
 
 		def elboton(x):
-			boton = Gtk.Button(str(x))
+			boton = Gtk.Button(x)
 			boton.connect("clicked", self.boton_clicked)
 			fila.add(boton)
 
