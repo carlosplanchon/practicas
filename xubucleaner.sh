@@ -42,4 +42,7 @@ echo -e $YELLOW"Limpiando imágenes en miniatura..."$ENDCOLOR
 rm -rf /home/*/.thumbnails/large/*
 rm -rf /home/*/.thumbnails/normal/*
 
+echo -e $YELLOW"Limpiando caché de Firefox..."$ENDCOLOR
+rm -rf /home/*/.cache/mozilla/firefox/*
+
 echo -e $YELLOW"Script finalizado - edición por: Carlos Planchón!"$ENDCOLOR
