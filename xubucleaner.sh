@@ -16,6 +16,19 @@ if [ $USER != root ]; then
   exit 0
 fi
 
+echo -e $YELLOW"Limpiando la cache apt..."$ENDCOLOR
+sudo apt-get clean
+
+echo -e $YELLOW"Removiendo viejos archivos de configuración..."$ENDCOLOR
+sudo apt-get purge $OLDCONF
+
+echo -e $YELLOW"Removiendo viejos kernels..."$ENDCOLOR
+sudo apt-get $OLDKERNELS
+
+echo -e $YELLOW"Limpiando las papeleras..."$ENDCOLOR
+rm -rf /home/*/.local/share/Trash/*/** &> /dev/null
+rm -rf /root/.local/share/Trash/*/** &> /dev/null
+
 echo -e $YELLOW"Obteniendo información de los repositorios..."$ENDCOLOR
 sudo apt-get update
 
@@ -33,10 +46,6 @@ sudo apt-get purge $OLDCONF
 
 echo -e $YELLOW"Removiendo viejos kernels..."$ENDCOLOR
 sudo apt-get $OLDKERNELS
-
-echo -e $YELLOW"Limpiando las papeleras..."$ENDCOLOR
-rm -rf /home/*/.local/share/Trash/*/** &> /dev/null
-rm -rf /root/.local/share/Trash/*/** &> /dev/null
 
 echo -e $YELLOW"Limpiando imágenes en miniatura..."$ENDCOLOR
 rm -rf /home/*/.thumbnails/large/*
