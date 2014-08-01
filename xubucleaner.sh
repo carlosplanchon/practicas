@@ -29,6 +29,13 @@ echo -e $YELLOW"Limpiando las papeleras..."$ENDCOLOR
 rm -rf /home/*/.local/share/Trash/*/** &> /dev/null
 rm -rf /root/.local/share/Trash/*/** &> /dev/null
 
+echo -e $YELLOW"Limpiando imágenes en miniatura..."$ENDCOLOR
+rm -rf /home/*/.thumbnails/large/*
+rm -rf /home/*/.thumbnails/normal/*
+
+echo -e $YELLOW"Limpiando caché de Firefox..."$ENDCOLOR
+rm -rf /home/*/.cache/mozilla/firefox/*
+
 echo -e $YELLOW"Obteniendo información de los repositorios..."$ENDCOLOR
 sudo apt-get update
 
