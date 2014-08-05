@@ -22,57 +22,53 @@ function borrar_oldkernel
 	fi
 }
 
+function limpiar
+{
+	echo -e $YELLOW"Limpiando la cache apt..."$ENDCOLOR
+	apt-get clean
+
+	echo -e $YELLOW"Eliminando paquetes huerfanos..."$ENDCOLOR
+	apt-get autoremove
+
+	echo -e $YELLOW"Removiendo viejos archivos de configuración..."$ENDCOLOR
+	apt-get purge $OLDCONF
+
+	echo -e $YELLOW"Removiendo viejos kernels..."$ENDCOLOR
+	borrar_oldkernel
+
+	echo -e $YELLOW"Limpiando imágenes en miniatura..."$ENDCOLOR
+	rm -rf /home/*/.thumbnails/large/*
+	rm -rf /home/*/.thumbnails/normal/*
+
+	echo -e $YELLOW"Limpiando caché de Firefox..."$ENDCOLOR
+	rm -rf /home/*/.cache/mozilla/firefox/*
+}
+
 if [ $USER != root ]; then
   echo -e $RED"Error: tenes que ser root"
   echo -e $YELLOW"Saliendo..."$ENDCOLOR
+  notify-send "Xubucleaner" "Tenés que ejecutar este programa como root"
   exit 0
 fi
+clear
 notify-send "Xubucleaner" "Iniciando limpieza..."
-
-echo -e $YELLOW"Limpiando la cache apt..."$ENDCOLOR
-sudo apt-get clean
-
-echo -e $YELLOW"Removiendo viejos archivos de configuración..."$ENDCOLOR
-sudo apt-get purge $OLDCONF
-
-echo -e $YELLOW"Removiendo viejos kernels..."$ENDCOLOR
-borrar_oldkernel
 
 echo -e $YELLOW"Limpiando las papeleras..."$ENDCOLOR
 rm -rf /home/*/.local/share/Trash/*/** &> /dev/null
 rm -rf /root/.local/share/Trash/*/** &> /dev/null
 
-echo -e $YELLOW"Limpiando imágenes en miniatura..."$ENDCOLOR
-rm -rf /home/*/.thumbnails/large/*
-rm -rf /home/*/.thumbnails/normal/*
-
-echo -e $YELLOW"Limpiando caché de Firefox..."$ENDCOLOR
-rm -rf /home/*/.cache/mozilla/firefox/*
+limpiar
 
 echo -e $YELLOW"Obteniendo información de los repositorios..."$ENDCOLOR
-sudo apt-get update
+apt-get update
 
 echo -e $YELLOW"Actualizándo programas..."$ENDCOLOR
-sudo apt-get upgrade
+apt-get upgrade
 
 echo -e $YELLOW"Actualizándo kernel..."$ENDCOLOR
-sudo apt-get dist-upgrade
+apt-get dist-upgrade
 
-echo -e $YELLOW"Limpiando la cache apt..."$ENDCOLOR
-sudo apt-get clean
-
-echo -e $YELLOW"Removiendo viejos archivos de configuración..."$ENDCOLOR
-sudo apt-get purge $OLDCONF
-
-echo -e $YELLOW"Removiendo viejos kernels..."$ENDCOLOR
-borrar_oldkernel
-
-echo -e $YELLOW"Limpiando imágenes en miniatura..."$ENDCOLOR
-rm -rf /home/*/.thumbnails/large/*
-rm -rf /home/*/.thumbnails/normal/*
-
-echo -e $YELLOW"Limpiando caché de Firefox..."$ENDCOLOR
-rm -rf /home/*/.cache/mozilla/firefox/*
+limpiar
 
 echo -e $YELLOW"Script finalizado - edición por: Carlos Planchón!"$ENDCOLOR
 notify-send "Xubucleaner" "Listo!"
