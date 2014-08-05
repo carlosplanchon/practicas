@@ -2,19 +2,32 @@
 # -*- coding: utf-8 -*-
 
 OLDCONF=$(dpkg -l|grep "^rc"|awk '{print $2}')
-CURKERNEL=$(uname -r|sed 's/-*[a-z]//g'|sed 's/-386//g')
-LINUXPKG="linux-(image|headers|ubuntu-modules|restricted-modules)"
-METALINUXPKG="linux-(image|headers|restricted-modules)-(generic|i386|server|common|rt|xen)"
-OLDKERNELS=$(dpkg -l|awk '{print $2}'|grep -E $LINUXPKG |grep -vE $METALINUXPKG|grep -v $CURKERNEL)
 YELLOW="\033[1;33m"
 RED="\033[0;31m"
 ENDCOLOR="\033[0m"
+
+function borrar_oldkernel
+{
+	ls /boot/ | grep vmlinuz | sed 's@vmlinuz-@linux-image-@g' | sed '$d' | sed '$d' > /tmp/kernelList
+	if [ -s /tmp/kernelList ]; then
+		echo "Se eliminarán los siguientes kernels\n`cat /tmp/kernelList`"
+		for I in `cat /tmp/kernelList`; do
+			apt-get remove $I
+			echo "Eliminando $I..."
+		done
+		rm -f /tmp/kernelList
+		echo "Actualizando gestor de arranque..."
+		update-grub
+		update-burg
+	fi
+}
 
 if [ $USER != root ]; then
   echo -e $RED"Error: tenes que ser root"
   echo -e $YELLOW"Saliendo..."$ENDCOLOR
   exit 0
 fi
+notify-send "Xubucleaner" "Iniciando limpieza..."
 
 echo -e $YELLOW"Limpiando la cache apt..."$ENDCOLOR
 sudo apt-get clean
@@ -23,7 +36,7 @@ echo -e $YELLOW"Removiendo viejos archivos de configuración..."$ENDCOLOR
 sudo apt-get purge $OLDCONF
 
 echo -e $YELLOW"Removiendo viejos kernels..."$ENDCOLOR
-sudo apt-get $OLDKERNELS
+borrar_oldkernel
 
 echo -e $YELLOW"Limpiando las papeleras..."$ENDCOLOR
 rm -rf /home/*/.local/share/Trash/*/** &> /dev/null
@@ -52,7 +65,7 @@ echo -e $YELLOW"Removiendo viejos archivos de configuración..."$ENDCOLOR
 sudo apt-get purge $OLDCONF
 
 echo -e $YELLOW"Removiendo viejos kernels..."$ENDCOLOR
-sudo apt-get $OLDKERNELS
+borrar_oldkernel
 
 echo -e $YELLOW"Limpiando imágenes en miniatura..."$ENDCOLOR
 rm -rf /home/*/.thumbnails/large/*
@@ -62,3 +75,4 @@ echo -e $YELLOW"Limpiando caché de Firefox..."$ENDCOLOR
 rm -rf /home/*/.cache/mozilla/firefox/*
 
 echo -e $YELLOW"Script finalizado - edición por: Carlos Planchón!"$ENDCOLOR
+notify-send "Xubucleaner" "Listo!"
