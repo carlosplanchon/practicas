@@ -54,8 +54,8 @@ clear
 notify-send "Xubucleaner" "Iniciando limpieza..."
 
 echo -e $YELLOW"Limpiando las papeleras..."$ENDCOLOR
-rm -rf /home/*/.local/share/Trash/*/** &> /dev/null
-rm -rf /root/.local/share/Trash/*/** &> /dev/null
+rm -rf /home/*/.local/share/Trash/*/**
+rm -rf /root/.local/share/Trash/*/**
 
 limpiar
 
