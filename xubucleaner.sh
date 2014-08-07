@@ -31,7 +31,7 @@ function limpiar
 	apt-get -y autoremove
 
 	echo -e $A"Removiendo viejos archivos de configuración..."$FINAL
-	apt-get purge $OLD
+	apt-get -y --force-yes purge $OLD
 
 	echo -e $A"Removiendo viejos kernels..."$FINAL
 	borrar_oldkernel
@@ -57,8 +57,8 @@ clear
 notify-send "Xubucleaner" "Iniciando limpieza..."
 
 echo -e $A"Limpiando las papeleras..."$FINAL
-rm -rf /home/*/.local/share/Trash/*/**
-rm -rf /root/.local/share/Trash/*/**
+rm -rf /home/*/.local/share/Trash/*
+rm -rf /root/.local/share/Trash/*
 
 limpiar
 
