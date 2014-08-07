@@ -63,6 +63,11 @@ echo -e $A"Limpiando las papeleras..."$R
 rm -rf /home/*/.local/share/Trash/*
 rm -rf /root/.local/share/Trash/*
 
+echo -e $A"Arreglando paquetes rotos (si los hay)..."$R
+apt-get -y --force-yes -f install
+dpkg --configure -a
+apt-get check
+
 limpiar
 
 echo -e $A"Obteniendo información de los repositorios..."$R
@@ -75,11 +80,6 @@ echo -e $A"Actualizándo kernel..."$R
 apt-get -y --force-yes dist-upgrade
 
 limpiar
-
-echo -e $A"Arreglando paquetes rotos (si los hay)..."$R
-apt-get -y --force-yes -f install
-dpkg --configure -a
-apt-get check
 
 echo -e $A"Script finalizado - edición por: Carlos Planchón!"$R
 notify-send "Xubucleaner" "Listo!"
