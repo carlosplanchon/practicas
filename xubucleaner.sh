@@ -1,12 +1,12 @@
 #!/bin/bash
 # -*- coding: utf-8 -*-
 
-OLDCONF=$(dpkg -l|grep "^rc"|awk '{print $2}')
-YELLOW="\033[1;33m"
-RED="\033[0;31m"
-ENDCOLOR="\033[0m"
+OLD=$(dpkg -l|grep "^rc"|awk '{print $2}')
+A="\033[1;33m"
+R="\033[0;31m"
+F="\033[0m"
 
-function borrar_oldkernel
+function chauoldkernel
 {
 	ls /boot/ | grep vmlinuz | sed 's@vmlinuz-@linux-image-@g' | sed '$d' | sed '$d' > /tmp/kernelList
 	if [ -s /tmp/kernelList ]; then
@@ -24,51 +24,54 @@ function borrar_oldkernel
 
 function limpiar
 {
-	echo -e $YELLOW"Limpiando la cache apt..."$ENDCOLOR
-	apt-get clean
+	echo $A"Limpiando la cache apt..."$F
+	apt-get -y clean
 
-	echo -e $YELLOW"Eliminando paquetes huerfanos..."$ENDCOLOR
-	apt-get autoremove
+	echo $A"Eliminando paquetes huerfanos..."$F
+	apt-get -y autoremove
 
-	echo -e $YELLOW"Removiendo viejos archivos de configuración..."$ENDCOLOR
-	apt-get purge $OLDCONF
+	echo $A"Removiendo viejos archivos de configuración..."$F
+	apt-get purge $OLD
 
-	echo -e $YELLOW"Removiendo viejos kernels..."$ENDCOLOR
-	borrar_oldkernel
+	echo $A"Removiendo viejos kernels..."$F
+	chauoldkernel
 
-	echo -e $YELLOW"Limpiando imágenes en miniatura..."$ENDCOLOR
+	echo $A"Limpiando imágenes en miniatura..."$F
 	rm -rf /home/*/.thumbnails/large/*
 	rm -rf /home/*/.thumbnails/normal/*
 
-	echo -e $YELLOW"Limpiando caché de Firefox..."$ENDCOLOR
+	echo $A"Limpiando caché de Firefox..."$F
 	rm -rf /home/*/.cache/mozilla/firefox/*
+
+	echo $A"Limpiando caché de Google Chrome..."$F
+	rm -rf /home/*/.cache/google-chrome/*
 }
 
 if [ $USER != root ]; then
-  echo -e $RED"Error: tenes que ser root"
-  echo -e $YELLOW"Saliendo..."$ENDCOLOR
+  echo $R"Error: tenes que ser root"
+  echo $A"Saliendo..."$F
   notify-send "Xubucleaner" "Tenés que ejecutar este programa como root"
   exit 0
 fi
 clear
 notify-send "Xubucleaner" "Iniciando limpieza..."
 
-echo -e $YELLOW"Limpiando las papeleras..."$ENDCOLOR
+echo $A"Limpiando las papeleras..."$F
 rm -rf /home/*/.local/share/Trash/*/**
 rm -rf /root/.local/share/Trash/*/**
 
 limpiar
 
-echo -e $YELLOW"Obteniendo información de los repositorios..."$ENDCOLOR
-apt-get update
+echo $A"Obteniendo información de los repositorios..."$FINAL
+apt-get -y update
 
-echo -e $YELLOW"Actualizándo programas..."$ENDCOLOR
-apt-get upgrade
+echo $A"Actualizándo programas..."$FINAL
+apt-get -y upgrade
 
-echo -e $YELLOW"Actualizándo kernel..."$ENDCOLOR
-apt-get dist-upgrade
+echo $A"Actualizándo kernel..."$FINAL
+apt-get -y dist-upgrade
 
 limpiar
 
-echo -e $YELLOW"Script finalizado - edición por: Carlos Planchón!"$ENDCOLOR
+echo $A"Script finalizado - edición por: Carlos Planchón!"$FINAL
 notify-send "Xubucleaner" "Listo!"
