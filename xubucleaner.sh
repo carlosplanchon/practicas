@@ -81,5 +81,5 @@ apt-get -y --force-yes dist-upgrade
 
 limpiar
 
-echo -e $A"Script finalizado - edición por: Carlos A. Planchón!"$R
+echo -e $A"Script finalizado - edición por: Carlos A. Planchón!"$F
 notify-send "Xubucleaner" "Listo!"
