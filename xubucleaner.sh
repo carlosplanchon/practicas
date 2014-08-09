@@ -4,7 +4,7 @@
 OLD=$(dpkg -l|grep "^rc"|awk '{print $2}')
 A="\033[1;33m"
 R="\033[0;31m"
-R="\033[0m"
+F="\033[0m"
 
 function borrar_oldkernel
 {
@@ -24,59 +24,59 @@ function borrar_oldkernel
 
 function limpiar
 {
-	echo -e $A"Limpiando la cache apt..."$R
+	echo -e $A"Limpiando la cache apt..."$F
 	apt-get -y clean
 
-	echo -e $A"Eliminando paquetes huerfanos..."$R
+	echo -e $A"Eliminando paquetes huerfanos..."$F
 	apt-get -y autoremove
 
-	echo -e $A"Eliminando paquetes viejos..."$R
+	echo -e $A"Eliminando paquetes viejos..."$F
 	apt-get -y autoclean
 
-	echo -e $A"Removiendo viejos archivos de configuración..."$R
+	echo -e $A"Removiendo viejos archivos de configuración..."$F
 	apt-get -y --force-yes purge $OLD
 
-	echo -e $A"Removiendo viejos kernels..."$R
+	echo -e $A"Removiendo viejos kernels..."$F
 	borrar_oldkernel
 
-	echo -e $A"Limpiando imágenes en miniatura..."$R
+	echo -e $A"Limpiando imágenes en miniatura..."$F
 	rm -rf /home/*/.thumbnails/large/*
 	rm -rf /home/*/.thumbnails/normal/*
 
-	echo -e $A"Limpiando caché de Firefox..."$R
+	echo -e $A"Limpiando caché de Firefox..."$F
 	rm -rf /home/*/.cache/mozilla/firefox/*
 
-	echo -e $A"Limpiando caché de Google Chrome..."$R
+	echo -e $A"Limpiando caché de Google Chrome..."$F
 	rm -rf /home/*/.cache/google-chrome/*
 }
 
 if [ $USER != root ]; then
   echo -e $R"Error: tenes que ser root"
-  echo -e $A"Saliendo..."$R
+  echo -e $A"Saliendo..."$F
   notify-send "Xubucleaner" "Tenés que ejecutar este programa como root"
   exit 0
 fi
 clear
 notify-send "Xubucleaner" "Iniciando limpieza..."
 
-echo -e $A"Limpiando las papeleras..."$R
+echo -e $A"Limpiando las papeleras..."$F
 rm -rf /home/*/.local/share/Trash/*
 rm -rf /root/.local/share/Trash/*
 
-echo -e $A"Arreglando paquetes rotos (si los hay)..."$R
+limpiar
+
+echo -e $A"Arreglando paquetes rotos (si los hay)..."$F
 apt-get -y --force-yes -f install
 dpkg --configure -a
 apt-get check
 
-limpiar
-
-echo -e $A"Obteniendo información de los repositorios..."$R
+echo -e $A"Obteniendo información de los repositorios..."$F
 apt-get -y update
 
-echo -e $A"Actualizándo programas..."$R
+echo -e $A"Actualizándo programas..."$F
 apt-get -y --force-yes upgrade
 
-echo -e $A"Actualizándo kernel..."$R
+echo -e $A"Actualizándo kernel..."$F
 apt-get -y --force-yes dist-upgrade
 
 limpiar
