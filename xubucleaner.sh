@@ -1,7 +1,7 @@
 #!/bin/bash
 # -*- coding: utf-8 -*-
 
-OLD=$(dpkg -l|grep "^rc"|awk '{print $2}')
+O=$(dpkg -l|grep "^rc"|awk '{print $2}')
 A="\033[1;33m"
 R="\033[0;31m"
 F="\033[0m"
@@ -34,7 +34,7 @@ function limpiar
 	apt-get -y autoclean
 
 	echo -e $A"Removiendo viejos archivos de configuración..."$F
-	apt-get -y --force-yes purge $OLD
+	apt-get -y --force-yes purge $O
 
 	echo -e $A"Removiendo viejos kernels..."$F
 	borrar_oldkernel
@@ -48,6 +48,9 @@ function limpiar
 
 	echo -e $A"Limpiando caché de Google Chrome..."$F
 	rm -rf /home/*/.cache/google-chrome/*
+
+	echo -e $A"Limpiando archivos temporales..."$F
+	rm -rf /tmp/*
 }
 
 if [ $USER != root ]; then
