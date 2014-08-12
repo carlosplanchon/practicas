@@ -10,13 +10,13 @@ function borrar_oldkernel
 {
 	ls /boot/ | grep vmlinuz | sed 's@vmlinuz-@linux-image-@g' | sed '$d' | sed '$d' > /tmp/kernelList
 	if [ -s /tmp/kernelList ]; then
-		echo "Se eliminarán los siguientes kernels\n`cat /tmp/kernelList`"
+		echo -e $A"Se eliminarán los siguientes kernels\n`cat /tmp/kernelList`"
 		for I in `cat /tmp/kernelList`; do
 			apt-get remove $I
-			echo "Eliminando $I..."
+			echo -e $A"Eliminando $I..."
 		done
 		rm -f /tmp/kernelList
-		echo "Actualizando gestor de arranque..."
+		echo -e $A"Actualizando gestor de arranque..."
 		update-grub
 		update-burg
 	fi
