@@ -6,22 +6,6 @@ A="\033[1;33m"
 R="\033[0;31m"
 F="\033[0m"
 
-function borrar_oldkernel
-{
-	ls /boot/ | grep vmlinuz | sed 's@vmlinuz-@linux-image-@g' | sed '$d' | sed '$d' > /tmp/kernelList
-	if [ -s /tmp/kernelList ]; then
-		echo -e $A"Se eliminarán los siguientes kernels\n`cat /tmp/kernelList`"
-		for I in `cat /tmp/kernelList`; do
-			apt-get remove $I
-			echo -e $A"Eliminando $I..."
-		done
-		rm -f /tmp/kernelList
-		echo -e $A"Actualizando gestor de arranque..."
-		update-grub
-		update-burg
-	fi
-}
-
 function limpiar
 {
 	echo -e $A"Limpiando la cache apt..."$F
@@ -37,7 +21,17 @@ function limpiar
 	apt-get -y --force-yes purge $O
 
 	echo -e $A"Removiendo viejos kernels..."$F
-	borrar_oldkernel
+	ls /boot/ | grep vmlinuz | sed 's@vmlinuz-@linux-image-@g' | sed '$d' | sed '$d' > /tmp/kernelList
+	if [ -s /tmp/kernelList ]; then
+		echo -e $A"Se eliminarán los siguientes kernels\n`cat /tmp/kernelList`"
+		for I in `cat /tmp/kernelList`; do
+			apt-get remove $I
+			echo -e $A"Eliminando $I..."
+		done
+		rm -f /tmp/kernelList
+		echo -e $A"Actualizando gestor de arranque..."
+		update-grub
+		update-burg
 
 	echo -e $A"Limpiando imágenes en miniatura..."$F
 	rm -rf /home/*/.thumbnails/large/*
