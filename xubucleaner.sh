@@ -32,6 +32,7 @@ function limpiar
 		echo -e $A"Actualizando gestor de arranque..."
 		update-grub
 		update-burg
+	fi
 
 	echo -e $A"Limpiando imágenes en miniatura..."$F
 	rm -rf /home/*/.thumbnails/large/*
