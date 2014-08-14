@@ -20,13 +20,14 @@ function limpiar
 	echo -e $A"Removiendo viejos archivos de configuración..."$F
 	apt-get -y --force-yes purge $O
 
-	echo -e $A"Removiendo viejos kernels..."$F
+	echo -e $A"Removiendo viejos kernels (si los hay)..."$F
 	ls /boot/ | grep vmlinuz | sed 's@vmlinuz-@linux-image-@g' | sed '$d' | sed '$d' > /tmp/kernelList
 	if [ -s /tmp/kernelList ]; then
-		echo -e $A"Se eliminarán los siguientes kernels\n`cat /tmp/kernelList`"
+		echo -e $A"Se eliminarán los siguientes kernels\n`cat /tmp/kernelList`"$F
+		notify-send "Xubucleaner" "Se está operando sobre el kernel."
 		for I in `cat /tmp/kernelList`; do
 			apt-get remove $I
-			echo -e $A"Eliminando $I..."
+			echo -e $A"Eliminando $I..."$F
 		done
 		rm -f /tmp/kernelList
 		echo -e $A"Actualizando gestor de arranque..."
