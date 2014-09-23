@@ -30,9 +30,8 @@ function limpiar
 			echo -e $A"Eliminando $I..."$F
 		done
 		rm -f /tmp/kernelList
-		echo -e $A"Actualizando gestor de arranque..."
+		echo -e $A"Actualizando gestor de arranque..."$F
 		update-grub
-		update-burg
 	fi
 
 	echo -e $A"Limpiando imágenes en miniatura..."$F
