@@ -1,7 +1,6 @@
 #!/bin/bash
 # -*- coding: utf-8 -*-
 
-O=$(dpkg -l|grep "^rc"|awk '{print $2}')
 A="\033[1;33m"
 R="\033[0;31m"
 F="\033[0m"
@@ -18,7 +17,7 @@ function limpiar
 	apt-get -y autoclean
 
 	echo -e $A"Removiendo viejos archivos de configuración..."$F
-	apt-get -y --force-yes purge $O
+	apt-get -y --force-yes purge $(dpkg -l|grep "^rc"|awk '{print $2}')
 
 	echo -e $A"Removiendo viejos kernels (si los hay)..."$F
 	ls /boot/ | grep vmlinuz | sed 's@vmlinuz-@linux-image-@g' | sed '$d' | sed '$d' > /tmp/kernelList
