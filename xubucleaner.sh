@@ -43,7 +43,7 @@ function limpiar
 	echo -e $A'Limpiando archivos temporales...'$F
 	rm -rf /tmp/*
 
-	echo -e $A'Limpiando registros...'$F
+	echo -e $A'Limpiando registros...(si existen en este sistema)'$F
 	rm /usr/bin/TEST.log
 	rm /usr/bin/RECV.log
 	rm /usr/bin/SENT.log
@@ -80,5 +80,6 @@ apt-get -y --force-yes dist-upgrade
 
 limpiar
 
+echo -e $A'--- SE RECOMIENDA REINICIAR EL SISTEMA ---!'$F
 echo -e $A'Script finalizado - edición por: Carlos A. Planchón!'$F
 notify-send 'Xubucleaner' 'Listo!'
