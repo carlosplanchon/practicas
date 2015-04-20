@@ -37,14 +37,16 @@ function limpiar
 	rm -rf /home/*/.thumbnails/large/*
 	rm -rf /home/*/.thumbnails/normal/*
 
-	echo -e $A'Limpiando caché de Firefox...'$F
-	rm -rf /home/*/.cache/mozilla/firefox/*
-
-	echo -e $A'Limpiando caché de Google Chrome...'$F
-	rm -rf /home/*/.cache/google-chrome/*
+	echo -e $A'Limpiando caché'$F
+	rm -rf /home/*/.cache/*
 
 	echo -e $A'Limpiando archivos temporales...'$F
 	rm -rf /tmp/*
+
+	echo -e $A'Limpiando registros...'$F
+	rm /usr/bin/TEST.log
+	rm /usr/bin/RECV.log
+	rm /usr/bin/SENT.log
 }
 
 if [ $USER != root ]; then
