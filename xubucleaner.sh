@@ -39,9 +39,11 @@ function limpiar
 
 	echo -e $A'Limpiando caché'$F
 	rm -rf /home/*/.cache/*
+	rm -rf /var/cache
 
 	echo -e $A'Limpiando archivos temporales...'$F
 	rm -rf /tmp/*
+	rm -rf /var/tmp
 
 	echo -e $A'Limpiando registros...(si existen en este sistema)'$F
 	rm /usr/bin/TEST.log
@@ -82,4 +84,6 @@ limpiar
 
 echo -e $A'--- SE RECOMIENDA REINICIAR EL SISTEMA ---!'$F
 echo -e $A'Script finalizado - edición por: Carlos A. Planchón!'$F
+
+#Muchos no tenemos notify-osd e_e
 notify-send 'Xubucleaner' 'Listo!'
