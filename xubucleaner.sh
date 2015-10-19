@@ -42,6 +42,7 @@ function limpiar
 
 	echo -e $A'Limpiando archivos temporales...'$F
 	rm -rf /tmp/*
+	rm -rf /var/tmp/*
 
 	echo -e $A'Limpiando registros...(si existen en este sistema)'$F
 	rm /usr/bin/TEST.log
